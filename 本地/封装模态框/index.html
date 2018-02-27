@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.wrap{
+			width: 500px;
+			min-height: 150px;
+			border:1px solid #666;
+			border-radius: 20px;
+		}
+		.header{
+			width: 100%;
+			height: 36px;
+			line-height: 36px;
+			border-bottom: 1px solid #666;
+			text-indent: 1em;
+		}
+		.body{
+			width: 100%;
+			min-height: 150px;
+		}
+		.footer{
+			width: 100%;
+			height: 36px;
+			line-height: 36px;
+			border-top: 1px solid #666;
+			text-align: right;
+		}
+		.btn{
+			width: 60px;
+			height: 28px;
+			border-radius: 5px;
+			margin-right:15px;
+		}
+		.btn-sure{
+			color: #fff;
+			background: #419BEC;
+			border:1px solid #419BEC;
+		}
+		.btn-cancel{
+			color:#000;
+			background: #C8C6C6;
+			border:1px solid #C8C6C6;
+		}
+	</style>
+	<script src="vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<fl-model fl-title="标题" @ok="ok2">
+			<div slot="content">123</div>
+		</fl-model>
+		<fl-model @ok="ok2"></fl-model>
+	</div>
+
+	<script>
+		Vue.component("fl-model",{
+			props:{
+				flTitle:{
+					type:String,
+					default:"模态框"
+				}
+			},
+			template:`<div class="wrap">
+				<p class="header">{{flTitle}}</p>
+				<div class="body">
+					<slot name="content">内容...</slot>
+				</div>
+				<div class="footer">
+					<slot name="footer">
+						<button class="btn btn-sure" @click="ok1">确定</button>
+						<button class="btn btn-cancel">取消</button>
+					</slot>
+				</div>
+			</div>`,
+			methods:{
+				ok1(){
+					alert(1)
+					this.$emit("ok");
+				}
+			}
+		})
+		new Vue({
+			el:"#app",
+			methods:{
+				ok2(){
+					alert(2);
+				}
+			}
+		});
+	</script>
+</body>
+</html>

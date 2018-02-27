@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="vue.js"></script>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		.f-ul{
+			margin-left:20px;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<fl-par :con="list"></fl-par>
+		<!-- <ul class="f-ul">
+			<li>
+				<span>1</span>
+				<ul class="f-ul">
+					<li>
+						<span>1.1</span>
+					</li>
+					<li>
+						<span>1.2</span>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<span>2</span>
+				<ul class="f-ul">
+					<li>
+						<span>1.1</span>
+						<ul class="f-ul">
+							<li>
+								<span>2.1</span>
+								<ul class="f-ul">
+									<li>
+										<span>3.1</span>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul> -->
+	</div>
+	<script>
+		Vue.component("fl-par",{
+			data(){
+				return {
+					show:true,
+					show1:true,
+				}
+			},
+			props:["con"],
+			template:`<ul class="f-ul">
+						<li v-for="item in con" @click="showli">
+							<span>{{item.content}}</span>
+							<fl-par v-if="item.children" :con="item.children"></fl-par>
+						</li>
+					</ul>`,
+			methods:{
+				showli(){
+					console.log(1)
+				}
+			}		
+		})
+		let list = [
+			{
+				"content":"1",
+				"show":"true",
+				"children":[
+					{
+						"content":"1.1",
+						"show":"true"
+					},
+					{
+						"content":"1.2",
+						"show":"true"
+					},
+					{
+						"content":"1.3",
+						"show":"true"
+					}
+				]
+			},
+			{
+				"content":"2",
+				"show":"true",
+				"children":[
+					{
+						"content":"2.1",
+						"show":"true",
+						"children":[
+							{
+								"content":"2.1.1",
+								"show":"true",
+								"children":[
+									{
+										"content":"2.1.1.1",
+										"show":"true",
+										"children":[
+											{
+												"content":"2.1.1.1.1",
+												"show":"true"
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"content":"3",
+				"children":[
+					{
+						"content":"3.1",
+						"children":[
+							{
+								"content":"3.1.1",
+								"children":[
+									{
+										"content":"3.1.1.1"
+									}
+								]
+							}
+						]
+					},
+					{
+						"content":"3.2"
+					},
+					{
+						"content":"3.3",
+						"children":[
+							{
+								"content":"3.3.1"
+							}
+						]
+					}
+				]
+			}
+		];
+		console.log(list)
+		new Vue({
+			el:"#app",
+			data:{
+				list
+			}
+		})
+	</script>
+</body>
+</html>

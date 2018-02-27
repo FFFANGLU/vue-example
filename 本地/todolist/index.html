@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="vue.js"></script>
+</head>
+<body>
+<div id="app">
+   <header>
+   		<h1 class="wrap">任务计划列表</h1>
+   </header>
+   <div class="wrap" id="wrap">
+   		<h2>添加任务：</h2>
+   		<input type="text" class="input" @keyup.enter="addTo" v-model="add">
+   		<p class="tip" v-show="list.length">
+   			<span>{{ unfinishedLength }}个任务未完成</span>
+   			<a :class="{completed:visiblity==='finished'}" href="#finished">已完成任务</a>
+   			<a :class="{completed:visiblity==='unfinished'}" href="#unfinished">未完成任务</a>
+   			<a :class="{completed:visiblity==='all'}" href="#all">所有任务</a>
+   		</p>
+   		<h2>任务列表：</h2>
+		<p class="p" v-show="!list.length">还没有添加任何任务</p>
+   		<ul>
+   			<li v-for="item in filterList" :class="{finished:item.isFinished,editing:item === edittodo}">
+				<div>
+					<input type="checkbox" v-model="item.isFinished" @click="consoleLog(item)">
+					<span @dblclick="editor(item)">{{item.title}}</span>
+					<button @click="deleteTodo(item)">X</button>
+				</div>
+				<input 
+					v-focus="edittodo === item" 
+					type="text" 
+					v-model="item.title"
+					@keyup.enter="editend()"
+					@keyup.esc="canceledit(item)"
+					@blur="editend()"
+				/>
+   			</li>
+   		</ul>
+   </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

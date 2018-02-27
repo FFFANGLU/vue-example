@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="main.css">
+	<script src="vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<fl-select btn-value="查询" :list="list.list1"></fl-select>
+		<fl-select btn-value="搜索" :list="list.list2"></fl-select>
+	</div>
+
+	<script>
+		Vue.component("fl-select",{
+			data(){
+				return {
+					selected:true,
+					val:""
+				}
+			},
+			props:["btn-value","list"],
+			template:`<section>
+				<div class="wrap">
+					<div class="input">
+						<input 
+							type="text" 
+							placeholder="请输入内容" 
+							@click="selected=!selected" 
+							:value="val">
+						<input type="button" :value="btnValue">
+					</div>
+					<fl-list 
+						v-show="selected" 
+						:list="list" 
+						@haha="rechange"
+					></fl-list>
+				</div>
+			</section>`,
+			methods:{
+				rechange(value){
+					this.val = value;
+				}
+			}
+		})
+
+		Vue.component("fl-list",{
+			props:["list"],
+			template:`<ul>
+						<li v-for="item of list" @click="receive(item)">{{ item }}</li>
+					</ul>`,
+			methods:{
+				receive(item){
+					this.$emit("haha",item)
+				}
+			}		
+		})
+
+		let list = {
+			list1:["北京","上海","天津"],
+			list2:["小吃","火锅","快餐"]
+		}
+		new Vue({
+			el:"#app",
+			data:{
+				list
+			}
+		});
+	</script>
+</body>
+</html>
